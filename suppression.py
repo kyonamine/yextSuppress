@@ -23,7 +23,7 @@ def getPubs():
     sh = gc.open_by_url(pubsUrl)
     worksheet = sh.get_worksheet(0)
     pubList = worksheet.col_values(1)
-    pubList = pubList.pop(0)
+    pubList.pop(0)
     os.write(1,  f"{pubList}\n".encode())
 
 getPubs()
