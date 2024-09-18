@@ -14,4 +14,6 @@ credentials = {
     }    
 }
 
-os.write(1,  f"{credentials}\n".encode())
+
+authorized_user = {"refresh_token": st.secrets["refresh_token"], "token_uri": "https://oauth2.googleapis.com/token", "client_id": st.secrets["client_id"], "client_secret": st.secrets["client_secret"], "scopes": ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"], "expiry": "2022-11-09T18:33:12.530288Z"}
+os.write(1,  f"{authorized_user}\n".encode())
