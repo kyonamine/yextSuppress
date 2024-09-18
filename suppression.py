@@ -29,7 +29,7 @@ def getPubs():
 
 def userSelect(listOfPubs):
     option = st.selectbox(
-        "What publisher?"
+        "What publisher?",
     (listOfPubs),
     index=None,
     placeholder="Select a publihser",
