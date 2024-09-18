@@ -14,4 +14,4 @@ credentials = {
     }    
 }
 
-print(credentials)
+os.write(1,  f"{credentials}\n".encode())
