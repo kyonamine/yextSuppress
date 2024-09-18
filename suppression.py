@@ -25,5 +25,15 @@ def getPubs():
     pubList = worksheet.col_values(1)
     pubList.pop(0)
     os.write(1,  f"{pubList}\n".encode())
+    return pubList
 
-getPubs()
+def userSelect(listOfPubs):
+    option = st.selectbox(
+        "What publisher?"
+    (listOfPubs),
+    index=None,
+    placeholder="Select a publihser",
+)
+
+pubList = getPubs()
+userSelect(pubList)
