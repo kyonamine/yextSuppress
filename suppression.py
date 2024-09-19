@@ -35,7 +35,8 @@ def xmlSuppress(listingId):
                 </suppress>
             '''
     request = requests.post(api, body = xmlBody)
-    st.write(request.status_code)
+    os.write(1,  f"{xmlBody}\n".encode())
+    os.write(1,  f"{request.status_code}\n".encode())
     return
 
 def userSelect(listOfPubs):
