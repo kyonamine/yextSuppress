@@ -28,15 +28,21 @@ def getPubs():
     return pubList
 
 def userSelect(listOfPubs):
-    option = st.selectbox(
-        "What publisher?",
-        (listOfPubs),
-        index=None,
-        placeholder="Select a publihser",
-    )
-    suppressId = st.text_input("What ID should be suppressed?:")
-    canonicalId = st.text_input("What is the canonical ID?:")
-    st.write(f"Attempting to suppress {suppressId}")
+    with st.form("Form"):
+        option = st.selectbox(
+            "What publisher?",
+            (listOfPubs),
+            index=None,
+            placeholder="Select a publihser",
+        )
+        suppressId = st.text_input("What ID should be suppressed?:")
+        canonicalId = st.text_input("What is the canonical ID?:")
+        form_submitted = st.form_submit_button("Suppress")
+
+        if form_submitted:
+            st.write(f"Attempting to suppress {suppressId} on {option}")
+            if canonicalId:
+                st.write(f"Canonical ID is {canonicalId}")
 
 pubList = getPubs()
 userSelect(pubList)
