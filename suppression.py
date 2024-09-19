@@ -32,8 +32,9 @@ def xmlSuppress(pubName, listingId, frame):
                 <suppress>true</suppress>
                 </suppress>
             '''
-    if pubName in frame.index and 'C' in frame.columns:
-        key = frame.loc[pubName, 'C']
+    row = frame[frame['A'] == pubName]
+    if not row.empty and 'C' in frame.columns:
+        key = row.iloc[0]['C']
     else:
         key = None
     # key = frame.loc[pubName, 'Header1 Key']
