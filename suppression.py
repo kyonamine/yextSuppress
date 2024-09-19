@@ -2,6 +2,7 @@ import requests
 import os
 import streamlit as st
 import gspread 
+import pandas as pd
 
 credentials = {
     "installed": {
@@ -18,28 +19,31 @@ credentials = {
 authorized_user = {"refresh_token": st.secrets["refresh_token"], "token_uri": "https://oauth2.googleapis.com/token", "client_id": st.secrets["client_id"], "client_secret": st.secrets["client_secret"], "scopes": ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"], "expiry": "2022-11-09T18:33:12.530288Z"}
 gc, authorized_user = gspread.oauth_from_dict(credentials, authorized_user)
 
-def getPubs():
-    pubsUrl = 'https://docs.google.com/spreadsheets/d/1q1QcCD_wXY2QMMphScptTlSFOnsWA-35072U510oWVk/edit?gid=0#gid=0' #prod doc
-    sh = gc.open_by_url(pubsUrl)
-    worksheet = sh.get_worksheet(0)
+def getPubs(sh, worksheet):
     pubList = worksheet.col_values(1)
     pubList.pop(0)
     os.write(1,  f"{pubList}\n".encode())
     return pubList
 
 def xmlSuppress(listingId):
-    api = 'tpapi.aws.mapquest.com/tpapi/listings/suppress'
+    api = 'https://tpapi.aws.mapquest.com/tpapi/listings/suppress'
     xmlBody = f'''<suppress>
                 <listingId>{listingId}</listingId>
                 <suppress>true</suppress>
                 </suppress>
             '''
-    request = requests.post(api, body = xmlBody)
+    heads = {'Content-Type': 'application/xml'}
+    request = requests.post(api, headers = heads, data = xmlBody)
     os.write(1,  f"{xmlBody}\n".encode())
     os.write(1,  f"{request.status_code}\n".encode())
+
     return
 
-def userSelect(listOfPubs):
+def userSelect():
+    googSheet = 'https://docs.google.com/spreadsheets/d/1q1QcCD_wXY2QMMphScptTlSFOnsWA-35072U510oWVk/edit?gid=0#gid=0' #prod doc
+    sh = gc.open_by_url(googSheet)
+    worksheet = sh.get_worksheet(0)
+    listOfPubs = getPubs(sh, worksheet)
     with st.form("Form"):
         option = st.selectbox(
             "What publisher?",
@@ -53,8 +57,11 @@ def userSelect(listOfPubs):
 
         if form_submitted:
             st.write(f"Attempting to suppress {suppressId} on {option}")
-            if canonicalId:
-                st.write(f"Canonical ID is {canonicalId}")
+            # if canonicalId:
+            #     st.write(f"Canonical ID is {canonicalId}")
+            dataframe = pd.DataFrame(worksheet.get_all_records())
+            os.write(1,  f"{dataframe}\n".encode())
+            
 
-pubList = getPubs()
-userSelect(pubList)
+
+userSelect()
