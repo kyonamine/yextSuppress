@@ -27,6 +27,17 @@ def getPubs():
     os.write(1,  f"{pubList}\n".encode())
     return pubList
 
+def xmlSuppress(listingId):
+    api = 'tpapi.aws.mapquest.com/tpapi/listings/suppress'
+    xmlBody = f'''<suppress>
+                <listingId>{listingId}</listingId>
+                <suppress>true</suppress>
+                </suppress>
+            '''
+    request = requests.post(api, body = xmlBody)
+    st.write(request.status_code)
+    return
+
 def userSelect(listOfPubs):
     with st.form("Form"):
         option = st.selectbox(
@@ -35,8 +46,8 @@ def userSelect(listOfPubs):
             index=None,
             placeholder="Select a publihser",
         )
-        suppressId = st.text_input("What ID should be suppressed?:")
-        canonicalId = st.text_input("What is the canonical ID?:")
+        suppressId = st.text_input("What ID should be suppressed?")
+        canonicalId = st.text_input("What is the canonical ID?")
         form_submitted = st.form_submit_button("Suppress")
 
         if form_submitted:
