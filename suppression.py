@@ -73,7 +73,7 @@ def userSelect():
             # if canonicalId:
             #     st.write(f"Canonical ID is {canonicalId}")
             dataframe = pd.DataFrame(worksheet.get_all_records())
-            os.write(1,  f"{dataframe}\n".encode())
+            # os.write(1,  f"{dataframe}\n".encode())
             if option == 'MapQuest':
                 xmlSuppress(option, suppressId, dataframe)
             
