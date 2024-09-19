@@ -32,7 +32,7 @@ def xmlSuppress(pubName, listingId, frame):
                 <suppress>true</suppress>
                 </suppress>
             '''
-    key = frame.at[pubName, 'C']
+    key = frame.at[pubName, 'Header1 Key']
     heads = {'Content-Type': 'application/xml'}
     # request = requests.post(api, headers = heads, data = xmlBody)
     os.write(1,  f"{key}\n".encode())
