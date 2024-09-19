@@ -32,7 +32,11 @@ def xmlSuppress(pubName, listingId, frame):
                 <suppress>true</suppress>
                 </suppress>
             '''
-    key = frame.loc[pubName, 'Header1 Key']
+    if pubName in frame.index and 'C' in frame.columns:
+        key = frame.loc[pubName, 'C']
+    else:
+        key = None
+    # key = frame.loc[pubName, 'Header1 Key']
     heads = {'Content-Type': 'application/xml'}
     # request = requests.post(api, headers = heads, data = xmlBody)
     os.write(1,  f"{key}\n".encode())
