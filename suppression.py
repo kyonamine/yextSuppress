@@ -37,12 +37,19 @@ def xmlSuppress(pubName, listingId, frame):
         key = row.iloc[0]['Header1 Key']
     else:
         key = None
+    if not row.empty and 'Header1 Value' in frame.columns:
+        value = row.iloc[0]['Header1 Value']
+    else:
+        value = None
     # key = frame.loc[pubName, 'Header1 Key']
-    heads = {'Content-Type': 'application/xml'}
-    # request = requests.post(api, headers = heads, data = xmlBody)
-    os.write(1,  f"{key}\n".encode())
-    # os.write(1,  f"{request.status_code}\n".encode())
-
+    heads = {
+                'Content-Type': 'application/xml',
+                f'{key}': f'{value}'
+            }
+    request = requests.post(api, headers = heads, data = xmlBody)
+    # os.write(1,  f"{key}\n".encode())
+    os.write(1,  f"{request.status_code}\n".encode())
+    os.write(1,  f"{request.text}\n".encode())
     return
 
 def userSelect():
