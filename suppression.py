@@ -63,7 +63,7 @@ def userSelect():
             dataframe = pd.DataFrame(worksheet.get_all_records())
             os.write(1,  f"{dataframe}\n".encode())
             if option == 'MapQuest':
-                xmlSuppress(suppressId, dataframe)
+                xmlSuppress(option, suppressId, dataframe)
             
 
 
