@@ -25,17 +25,18 @@ def getPubs(sh, worksheet):
     os.write(1,  f"{pubList}\n".encode())
     return pubList
 
-def xmlSuppress(listingId):
+def xmlSuppress(pubName, listingId, frame):
     api = 'https://tpapi.aws.mapquest.com/tpapi/listings/suppress'
     xmlBody = f'''<suppress>
                 <listingId>{listingId}</listingId>
                 <suppress>true</suppress>
                 </suppress>
             '''
+    key = frame.at[pubName, 'C']
     heads = {'Content-Type': 'application/xml'}
-    request = requests.post(api, headers = heads, data = xmlBody)
-    os.write(1,  f"{xmlBody}\n".encode())
-    os.write(1,  f"{request.status_code}\n".encode())
+    # request = requests.post(api, headers = heads, data = xmlBody)
+    os.write(1,  f"{key}\n".encode())
+    # os.write(1,  f"{request.status_code}\n".encode())
 
     return
 
@@ -61,6 +62,8 @@ def userSelect():
             #     st.write(f"Canonical ID is {canonicalId}")
             dataframe = pd.DataFrame(worksheet.get_all_records())
             os.write(1,  f"{dataframe}\n".encode())
+            if option == 'MapQuest':
+                xmlSuppress(suppressId, dataframe)
             
 
 
