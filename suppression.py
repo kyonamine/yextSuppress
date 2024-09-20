@@ -65,7 +65,7 @@ def userSelect():
             placeholder="Select a publihser",
         )
         suppressId = st.text_input("What ID should be suppressed?")
-        canonicalId = st.text_input("What is the canonical ID?")
+        # canonicalId = st.text_input("What is the canonical ID?")
         form_submitted = st.form_submit_button("Suppress")
 
         if form_submitted:
