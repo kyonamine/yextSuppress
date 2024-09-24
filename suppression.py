@@ -52,6 +52,10 @@ def xmlSuppress(pubName, listingId, frame):
     os.write(1,  f"{request.text}\n".encode())
     return
 
+def jsonSuppress(pubName, listingId, frame):
+
+    return
+
 def userSelect():
     googSheet = 'https://docs.google.com/spreadsheets/d/1q1QcCD_wXY2QMMphScptTlSFOnsWA-35072U510oWVk/edit?gid=0#gid=0' #prod doc
     sh = gc.open_by_url(googSheet)
@@ -73,9 +77,11 @@ def userSelect():
             # if canonicalId:
             #     st.write(f"Canonical ID is {canonicalId}")
             dataframe = pd.DataFrame(worksheet.get_all_records())
-            # os.write(1,  f"{dataframe}\n".encode())
-            if option == 'MapQuest':
-                xmlSuppress(option, suppressId, dataframe)
+            os.write(1,  f"{dataframe}\n".encode())
+            # if option == 'MapQuest':
+            #     xmlSuppress(option, suppressId, dataframe)
+            # else:
+            #     jsonSuppress(option, suppressId, dataframe)
             
 
 
