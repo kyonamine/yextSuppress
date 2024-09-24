@@ -57,7 +57,7 @@ def getApiUri(pubName, frame):
 
 def jsonSuppress(pubName, listingId, frame):
     api = getApiUri(pubName, frame)
-    
+
     return
 
 def userSelect():
@@ -65,6 +65,7 @@ def userSelect():
     sh = gc.open_by_url(googSheet)
     worksheet = sh.get_worksheet(0)
     listOfPubs = getPubs(sh, worksheet)
+    st.write(f"FYI: Only MapQuest is currently supported")
     with st.form("Form"):
         option = st.selectbox(
             "What publisher?",
