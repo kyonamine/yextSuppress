@@ -26,9 +26,7 @@ def getPubs(sh, worksheet):
     return pubList
 
 def xmlSuppress(pubName, listingId, frame):
-    api = frame[frame['Pub Name'] == pubName].iloc[0]['Uri']
-    os.write(1,  f"{api}\n".encode())
-    # api = 'https://tpapi.aws.mapquest.com/tpapi/listings/suppress'
+    api = getApiUri(pubName, frame)
     xmlBody = f'''<suppress>
                 <listingId>{listingId}</listingId>
                 <suppress>true</suppress>
@@ -43,16 +41,18 @@ def xmlSuppress(pubName, listingId, frame):
         value = row.iloc[0]['Header1 Value']
     else:
         value = None
-    # key = frame.loc[pubName, 'Header1 Key']
     heads = {
                 'Content-Type': 'application/xml',
                 f'{key}': f'{value}'
             }
     request = requests.post(api, headers = heads, data = xmlBody)
-    # os.write(1,  f"{key}\n".encode())
     os.write(1,  f"{request.status_code}\n".encode())
     os.write(1,  f"{request.text}\n".encode())
     return
+
+def getApiUri(pubName, frame):
+    api = frame[frame['Pub Name'] == pubName].iloc[0]['Uri']
+    return api
 
 def jsonSuppress(pubName, listingId, frame):
 
