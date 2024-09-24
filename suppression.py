@@ -27,7 +27,6 @@ def getPubs(sh, worksheet):
 
 def xmlSuppress(pubName, listingId, frame):
     api = getApiUri(pubName, frame)
-    os.write(1,  f"{api}\n".encode())
     xmlBody = f'''<suppress>
                 <listingId>{listingId}</listingId>
                 <suppress>true</suppress>
@@ -53,10 +52,12 @@ def xmlSuppress(pubName, listingId, frame):
 
 def getApiUri(pubName, frame):
     api = frame[frame['Pub Name'] == pubName].iloc[0]['Uri']
+    # os.write(1,  f"{api}\n".encode())
     return api
 
 def jsonSuppress(pubName, listingId, frame):
-
+    api = getApiUri(pubName, frame)
+    
     return
 
 def userSelect():
