@@ -26,7 +26,9 @@ def getPubs(sh, worksheet):
     return pubList
 
 def xmlSuppress(pubName, listingId, frame):
-    api = 'https://tpapi.aws.mapquest.com/tpapi/listings/suppress'
+    api = frame[frame['Pub Name'] == pubName].iloc[0]['Uri']
+    os.write(1,  f"{api}\n".encode())
+    # api = 'https://tpapi.aws.mapquest.com/tpapi/listings/suppress'
     xmlBody = f'''<suppress>
                 <listingId>{listingId}</listingId>
                 <suppress>true</suppress>
@@ -78,8 +80,8 @@ def userSelect():
             #     st.write(f"Canonical ID is {canonicalId}")
             dataframe = pd.DataFrame(worksheet.get_all_records())
             os.write(1,  f"{dataframe}\n".encode())
-            # if option == 'MapQuest':
-            #     xmlSuppress(option, suppressId, dataframe)
+            if option == 'MapQuest':
+                xmlSuppress(option, suppressId, dataframe)
             # else:
             #     jsonSuppress(option, suppressId, dataframe)
             
